@@ -19,8 +19,8 @@
 
 基础概念：
 
-​		一个OceanBase集群可以分为多个Zone。
-​		Zone：一">
+一个OceanBase集群可以分为多个Zone。
+Zone：一个集群由多个">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
     <meta name="renderer" content="webkit|ie-stand|ie-comp">
@@ -309,26 +309,27 @@
 
         <div class="card-content article-card-content">
             <div id="articleContent">
-                <h2 id="1-分布式数据库与集中式数据库的差异"><a href="#1-分布式数据库与集中式数据库的差异" class="headerlink" title="1.分布式数据库与集中式数据库的差异"></a>1.分布式数据库与集中式数据库的差异</h2><p><img src="image-20221011230910388.png" alt="image-20221011230910388"></p>
+                <h2 id="1-分布式数据库与集中式数据库的差异"><a href="#1-分布式数据库与集中式数据库的差异" class="headerlink" title="1.分布式数据库与集中式数据库的差异"></a>1.分布式数据库与集中式数据库的差异</h2><p><img src="image-20221011230910388.png"></p>
 <p>解决缺陷可以使用：</p>
-<p><img src="image-20221011230951292.png" alt="image-20221011230951292"></p>
+<p><img src="image-20221011230951292.png"></p>
 <p>分布式数据库：</p>
-<p><img src="image-20221011231050529.png" alt="image-20221011231050529"></p>
-<p><img src="image-20221011231117786.png" alt="image-20221011231117786"></p>
-<h2 id="2-OceanBase产品家族及基础概念"><a href="#2-OceanBase产品家族及基础概念" class="headerlink" title="2. OceanBase产品家族及基础概念"></a>2. OceanBase产品家族及基础概念</h2><p><img src="image-20221011231604652.png" alt="image-20221011231604652"></p>
-<p><img src="image-20221011231739044.png" alt="image-20221011231739044"></p>
+<p><img src="image-20221011231050529.png"></p>
+<p><img src="image-20221011231117786.png"></p>
+<h2 id="2-OceanBase产品家族及基础概念"><a href="#2-OceanBase产品家族及基础概念" class="headerlink" title="2. OceanBase产品家族及基础概念"></a>2. OceanBase产品家族及基础概念</h2><p><img src="image-20221011231604652.png"></p>
+<p><img src="image-20221011231739044.png"></p>
 <p>部署流程：</p>
-<p><img src="image-20221011231909868.png" alt="image-20221011231909868"></p>
+<p><img src="image-20221011231909868.png"></p>
 <p>客户端：</p>
-<p><img src="image-20221011232101536.png" alt="image-20221011232101536"></p>
+<p><img src="image-20221011232101536.png"></p>
 <p>基础概念：</p>
-<p><img src="image-20221011232241567.png" alt="image-20221011232241567"></p>
-<p>​		<strong>一个OceanBase集群可以分为多个Zone。</strong></p>
-<p>​		<strong>Zone：一个集群由多个Zone组成，每个Zone中可以有很多的OB Server，Zone中的机器不能异地。每个Zone中都有完整的数据备份，Zone的个数即为副本数目，建议大于等于3且为奇数。</strong></p>
+<p><img src="image-20221011232241567.png"></p>
+<p><strong>一个OceanBase集群可以分为多个Zone。</strong></p>
+<p><strong>Zone：一个集群由多个Zone组成，每个Zone中可以有很多的OB Server，Zone中的机器不能异地。每个Zone中都有完整的数据备份，Zone的个数即为副本数目，建议大于等于3且为奇数。</strong></p>
 <p>​		<strong>所有的Zone又构成了资源池，资源池可以划分不同的租户，分配给不同的开发者使用，同一个应用不会在两个租户中。每个租户都会在三个Zone中分配空间。</strong></p>
 <p>​		<strong>每一个OB service中都有一个SQL引擎和存储引擎，无论有多少租户在这个OB service中，只有一个OB service进程。</strong></p>
-<p><img src="image-20221011233253274.png" alt="image-20221011233253274">		<strong>每个Zone中都会有一台OB Service中运行 RS服务。</strong></p>
-<p><img src="image-20221011233430714.png" alt="image-20221011233430714"></p>
+<p><img src="image-20221011233253274.png">		</p>
+<p><strong>每个Zone中都会有一台OB Service中运行 RS服务。</strong></p>
+<p><img src="image-20221011233430714.png"></p>
 <p>​		<strong>同一个OB Service中不会有同一个租户的Unit，这是一种OB server内的Unit的负载均衡策略。所以给租户分配的Unit数目不能大于一个Zone中OB Service的数目。租户的资源不是恒定不变的，是可以动态调整的（如调大资源规格，或者调整资源单元的数量）</strong></p>
 
                 
