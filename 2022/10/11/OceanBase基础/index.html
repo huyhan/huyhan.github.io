@@ -19,8 +19,7 @@
 
 基础概念：
 
-一个OceanBase集群可以分为多个Zone。
-Zone：一个集群由多个">
+&amp;amp;nbsp; &amp;amp;nbsp; &amp;amp;nbsp; &amp;amp">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
     <meta name="renderer" content="webkit|ie-stand|ie-comp">
@@ -292,7 +291,7 @@ Zone：一个集群由多个">
                 
                 <div class="info-break-policy">
                     <i class="far fa-file-word fa-fw"></i>文章字数:&nbsp;&nbsp;
-                    335
+                    738
                 </div>
                 
 
@@ -323,7 +322,7 @@ Zone：一个集群由多个">
 <p><img src="image-20221011232101536.png"></p>
 <p>基础概念：</p>
 <p><img src="image-20221011232241567.png"></p>
-<p><strong>一个OceanBase集群可以分为多个Zone。</strong></p>
+<p>&amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; <strong>一个OceanBase集群可以分为多个Zone。</strong></p>
 <p><strong>Zone：一个集群由多个Zone组成，每个Zone中可以有很多的OB Server，Zone中的机器不能异地。每个Zone中都有完整的数据备份，Zone的个数即为副本数目，建议大于等于3且为奇数。</strong></p>
 <p>​		<strong>所有的Zone又构成了资源池，资源池可以划分不同的租户，分配给不同的开发者使用，同一个应用不会在两个租户中。每个租户都会在三个Zone中分配空间。</strong></p>
 <p>​		<strong>每一个OB service中都有一个SQL引擎和存储引擎，无论有多少租户在这个OB service中，只有一个OB service进程。</strong></p>
@@ -331,6 +330,23 @@ Zone：一个集群由多个">
 <p><strong>每个Zone中都会有一台OB Service中运行 RS服务。</strong></p>
 <p><img src="image-20221011233430714.png"></p>
 <p>​		<strong>同一个OB Service中不会有同一个租户的Unit，这是一种OB server内的Unit的负载均衡策略。所以给租户分配的Unit数目不能大于一个Zone中OB Service的数目。租户的资源不是恒定不变的，是可以动态调整的（如调大资源规格，或者调整资源单元的数量）</strong></p>
+<h2 id="3-OceanBase集群技术架构"><a href="#3-OceanBase集群技术架构" class="headerlink" title="3.OceanBase集群技术架构"></a>3.OceanBase集群技术架构</h2><h3 id="3-1-Paxos协议与负载均衡"><a href="#3-1-Paxos协议与负载均衡" class="headerlink" title="3.1 Paxos协议与负载均衡"></a>3.1 Paxos协议与负载均衡</h3><p><img src="image-20221019233731399.png"></p>
+<p>注：同一个Zone副本会打散在不同的OBserver上，实现负载均衡。</p>
+<p><img src="image-20221019233927715.png"></p>
+<p>同一个Zone中有且只有一个完整的副本，只读型副本不属于完整的副本。</p>
+<p>日志型副本搭建成本低于全能型副本，可以用于三地五中心中进行数据投票和记录。而只读型副本则可以用于读写频繁且数据精度要求不高的业务中，不参与paxos的投票。</p>
+<p><img src="image-20221019234439382.png"></p>
+<p><img src="image-20221019234507593.png"></p>
+<p>OB Proxy可以执行轻量级的sql，确认业务查询的表的分区的主副本在哪个Zone的哪台OB Service服务器上。</p>
+<p><img src="image-20221019234653707.png"></p>
+<p>Redo Log 只要有一台从副本返回完成，则认为同步完成，向应用返回成功。</p>
+<p><img src="image-20221019234840804.png"></p>
+<p><img src="image-20221019234917578.png"></p>
+<p>注意：Primary Zone虽然将业务集中到了一个Zone中，但是主副本不是在同一个Zone的同一个OB Service上，由Unit的负载均衡测率分配在不同的OB Service上，同一个Zone一般在同一个城市的同一个机房中，这点距离所产生的延时是可以接受的。这里的分配是以Zone为单位的。</p>
+<p><img src="image-20221019235256242.png"></p>
+<p><img src="image-20221019235318486.png" alt="image-20221019235318486"></p>
+<p>这里针对分区方式完全相同的表，归属到同一个Table Group中，我理解可以看成同一个表，相同逻辑分区的部分需要放在同一个OB Service上，连表查询的时候不用跨 OB Servise查询，如下图的例子，T1可以看成员工信息，T2可以看成员工工资。</p>
+<p><img src="image-20221019235622917.png"></p>
 
                 
             </div>
