@@ -291,7 +291,7 @@
                 
                 <div class="info-break-policy">
                     <i class="far fa-file-word fa-fw"></i>文章字数:&nbsp;&nbsp;
-                    738
+                    1.1k
                 </div>
                 
 
@@ -347,6 +347,52 @@
 <p><img src="image-20221019235318486.png" alt="image-20221019235318486"></p>
 <p>这里针对分区方式完全相同的表，归属到同一个Table Group中，我理解可以看成同一个表，相同逻辑分区的部分需要放在同一个OB Service上，连表查询的时候不用跨 OB Servise查询，如下图的例子，T1可以看成员工信息，T2可以看成员工工资。</p>
 <p><img src="image-20221019235622917.png"></p>
+<h3 id="3-2-数据可靠及高可用"><a href="#3-2-数据可靠及高可用" class="headerlink" title="3.2 数据可靠及高可用"></a>3.2 数据可靠及高可用</h3><p><img src="image-20221020223046886.png" alt="等级越高，灾难恢复能力越强"></p>
+<p><img src="image-20221020223323087.png" alt="故障恢复"></p>
+<p><img src="image-20221020223952689.png"></p>
+<p>服务器集群最好留一点裕量的资源空间，最好不要出现 一个租户的Unit单元等于OB Service的情况。</p>
+<p><img src="image-20221020224623395.png"></p>
+<p><img src="image-20221020225030337.png" alt="三地五中心"></p>
+<p><img src="image-20221020225731103.png"></p>
+<p><img src="image-20221020225911013.png"></p>
+<p>三地五中心和上面的方式的目的就是能做到城市级的容灾，一个城市的机房出现故障，还能保证Paxos的多数派的强一致性。</p>
+<p>  <img src="image-20221020231600310.png"></p>
+<p><img src="image-20221020231621694.png"></p>
+<p><img src="image-20221020231713350.png"></p>
+<p><img src="image-20221020231748967.png"></p>
+<h3 id="3-3-分布式事务、MVCC、事务隔离级别"><a href="#3-3-分布式事务、MVCC、事务隔离级别" class="headerlink" title="3.3 分布式事务、MVCC、事务隔离级别"></a>3.3 分布式事务、MVCC、事务隔离级别</h3><p><img src="image-20221020232029034.png"></p>
+<p><img src="image-20221020232733080.png"></p>
+<p>OB Proxy不是协调者，他是无状态的，OB Service是协调者。</p>
+<p>主副本才会参与到事务中，从副本只会做备份。所以协调者和参与者都是主副本。主副本在进行事务的过程中会不断同步日志到从副本，所以从副本也能感知事务的存在。两阶段提交是为了解决原子性的问题，paxos组是为了解决主从复制，主从选举的。 </p>
+<p><img src="image-20221020234352372.png"></p>
+<p><img src="image-20221020234422243.png"></p>
+<h2 id="4-OB-Service的SQL引擎和存储引擎"><a href="#4-OB-Service的SQL引擎和存储引擎" class="headerlink" title="4.OB Service的SQL引擎和存储引擎"></a>4.OB Service的SQL引擎和存储引擎</h2><h3 id="4-1-SQL引擎"><a href="#4-1-SQL引擎" class="headerlink" title="4.1 SQL引擎"></a>4.1 SQL引擎</h3><p><img src="image-20221023223336853.png"></p>
+<p>MySQL有很好的兼容性，因为代码开源。</p>
+<p><img src="image-20221023224408036.png"></p>
+<h3 id="4-2存储引擎和备份恢复"><a href="#4-2存储引擎和备份恢复" class="headerlink" title="4.2存储引擎和备份恢复"></a>4.2存储引擎和备份恢复</h3><p><img src="image-20221023224656879.png"></p>
+<p>堆表的结构，磁盘会划分很多段，段又会划分很多页。</p>
+<p><img src="image-20221023225013866.png"></p>
+<p><img src="image-20221023230459409.png"></p>
+<p><img src="image-20221023230916645.png"></p>
+<p>转储是分区级别的，合并是全局级别的。</p>
+<p><img src="image-20221023231103396.png"></p>
+<p>轮转合并指的是，合并的时候把Zone中的主副本先迁移到其他的Zone中去，比如合并Zone1的时候保证Zone1里面没有主副本。</p>
+<p><img src="image-20221023232654106.png"></p>
+<p><img src="image-20221023233016875.png"></p>
+<p><img src="image-20221023233541562.png"></p>
+<p><img src="image-20221023233714736.png"></p>
+<p><img src="image-20221023234105046.png"></p>
+<p><img src="image-20221023234210499.png"></p>
+<p><img src="image-20221023234257496.png"></p>
+<h2 id="5-OCP、ODC及OMS工具"><a href="#5-OCP、ODC及OMS工具" class="headerlink" title="5.OCP、ODC及OMS工具"></a>5.OCP、ODC及OMS工具</h2><p><img src="image-20221024220723063.png"></p>
+<p><img src="image-20221024220938863.png"></p>
+<p><img src="image-20221024221451108.png"></p>
+<p><img src="image-20221024223303327.png"></p>
+<p><img src="image-20221024223551049.png" alt="ODC"></p>
+<p><img src="image-20221024223719802.png"></p>
+<p><img src="image-20221024224102562.png"></p>
+<p><img src="image-20221024224246451.png"></p>
+<p><img src="image-20221024224903925.png"></p>
 
                 
             </div>
