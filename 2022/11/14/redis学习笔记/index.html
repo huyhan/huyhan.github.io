@@ -4,22 +4,8 @@
 
 <head>
     <meta charset="utf-8">
-    <meta name="keywords" content="OceanBase基础, 寒号鸟的树洞">
-    <meta name="description" content="1.分布式数据库与集中式数据库的差异
-解决缺陷可以使用：
-
-分布式数据库：
-
-
-2. OceanBase产品家族及基础概念
-
-部署流程：
-
-客户端：
-
-基础概念：
-
-&amp;amp;nbsp; &amp;amp;nbsp; &amp;amp;nbsp; &amp;amp">
+    <meta name="keywords" content="redis学习笔记, 寒号鸟的树洞">
+    <meta name="description" content="redis学习笔记1.redis基础介绍 Redis是一款基于键值对的NoSQL（Not only sql：非关系型数据库）数据库，它的值支持多种数据结构；字符串(String)、哈希(hashes)、列表(lists)、集合（zset）、">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
     <meta name="renderer" content="webkit|ie-stand|ie-comp">
@@ -31,7 +17,7 @@
     <!-- Global site tag (gtag.js) - Google Analytics -->
 
 
-    <title>OceanBase基础 | 寒号鸟的树洞</title>
+    <title>redis学习笔记 | 寒号鸟的树洞</title>
     <link rel="icon" type="image/png" href="/favicon.png">
     
 
@@ -241,12 +227,12 @@
 
 
 
-<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/5.jpg')">
+<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/23.jpg')">
     <div class="container" style="right: 0px;left: 0px;">
         <div class="row">
             <div class="col s12 m12 l12">
                 <div class="brand">
-                    <h1 class="description center-align post-title">OceanBase基础</h1>
+                    <h1 class="description center-align post-title">redis学习笔记</h1>
                 </div>
             </div>
         </div>
@@ -282,7 +268,7 @@
                 
                 <div class="post-date info-break-policy">
                     <i class="far fa-calendar-minus fa-fw"></i>发布日期:&nbsp;&nbsp;
-                    2022-10-11
+                    2022-11-14
                 </div>
                 
 
@@ -291,7 +277,7 @@
                 
                 <div class="info-break-policy">
                     <i class="far fa-file-word fa-fw"></i>文章字数:&nbsp;&nbsp;
-                    1.1k
+                    2.5k
                 </div>
                 
 
@@ -308,91 +294,71 @@
 
         <div class="card-content article-card-content">
             <div id="articleContent">
-                <h2 id="1-分布式数据库与集中式数据库的差异"><a href="#1-分布式数据库与集中式数据库的差异" class="headerlink" title="1.分布式数据库与集中式数据库的差异"></a>1.分布式数据库与集中式数据库的差异</h2><p><img src="image-20221011230910388.png"></p>
-<p>解决缺陷可以使用：</p>
-<p><img src="image-20221011230951292.png"></p>
-<p>分布式数据库：</p>
-<p><img src="image-20221011231050529.png"></p>
-<p><img src="image-20221011231117786.png"></p>
-<h2 id="2-OceanBase产品家族及基础概念"><a href="#2-OceanBase产品家族及基础概念" class="headerlink" title="2. OceanBase产品家族及基础概念"></a>2. OceanBase产品家族及基础概念</h2><p><img src="image-20221011231604652.png"></p>
-<p><img src="image-20221011231739044.png"></p>
-<p>部署流程：</p>
-<p><img src="image-20221011231909868.png"></p>
-<p>客户端：</p>
-<p><img src="image-20221011232101536.png"></p>
-<p>基础概念：</p>
-<p><img src="image-20221011232241567.png"></p>
-<p>&amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; <strong>一个OceanBase集群可以分为多个Zone。</strong></p>
-<p><strong>Zone：一个集群由多个Zone组成，每个Zone中可以有很多的OB Server，Zone中的机器不能异地。每个Zone中都有完整的数据备份，Zone的个数即为副本数目，建议大于等于3且为奇数。</strong></p>
-<p>​		<strong>所有的Zone又构成了资源池，资源池可以划分不同的租户，分配给不同的开发者使用，同一个应用不会在两个租户中。每个租户都会在三个Zone中分配空间。</strong></p>
-<p>​		<strong>每一个OB service中都有一个SQL引擎和存储引擎，无论有多少租户在这个OB service中，只有一个OB service进程。</strong></p>
-<p><img src="image-20221011233253274.png">		</p>
-<p><strong>每个Zone中都会有一台OB Service中运行 RS服务。</strong></p>
-<p><img src="image-20221011233430714.png"></p>
-<p>​		<strong>同一个OB Service中不会有同一个租户的Unit，这是一种OB server内的Unit的负载均衡策略。所以给租户分配的Unit数目不能大于一个Zone中OB Service的数目。租户的资源不是恒定不变的，是可以动态调整的（如调大资源规格，或者调整资源单元的数量）</strong></p>
-<h2 id="3-OceanBase集群技术架构"><a href="#3-OceanBase集群技术架构" class="headerlink" title="3.OceanBase集群技术架构"></a>3.OceanBase集群技术架构</h2><h3 id="3-1-Paxos协议与负载均衡"><a href="#3-1-Paxos协议与负载均衡" class="headerlink" title="3.1 Paxos协议与负载均衡"></a>3.1 Paxos协议与负载均衡</h3><p><img src="image-20221019233731399.png"></p>
-<p>注：同一个Zone副本会打散在不同的OBserver上，实现负载均衡。</p>
-<p><img src="image-20221019233927715.png"></p>
-<p>同一个Zone中有且只有一个完整的副本，只读型副本不属于完整的副本。</p>
-<p>日志型副本搭建成本低于全能型副本，可以用于三地五中心中进行数据投票和记录。而只读型副本则可以用于读写频繁且数据精度要求不高的业务中，不参与paxos的投票。</p>
-<p><img src="image-20221019234439382.png"></p>
-<p><img src="image-20221019234507593.png"></p>
-<p>OB Proxy可以执行轻量级的sql，确认业务查询的表的分区的主副本在哪个Zone的哪台OB Service服务器上。</p>
-<p><img src="image-20221019234653707.png"></p>
-<p>Redo Log 只要有一台从副本返回完成，则认为同步完成，向应用返回成功。</p>
-<p><img src="image-20221019234840804.png"></p>
-<p><img src="image-20221019234917578.png"></p>
-<p>注意：Primary Zone虽然将业务集中到了一个Zone中，但是主副本不是在同一个Zone的同一个OB Service上，由Unit的负载均衡测率分配在不同的OB Service上，同一个Zone一般在同一个城市的同一个机房中，这点距离所产生的延时是可以接受的。这里的分配是以Zone为单位的。</p>
-<p><img src="image-20221019235256242.png"></p>
-<p><img src="image-20221019235318486.png" alt="image-20221019235318486"></p>
-<p>这里针对分区方式完全相同的表，归属到同一个Table Group中，我理解可以看成同一个表，相同逻辑分区的部分需要放在同一个OB Service上，连表查询的时候不用跨 OB Servise查询，如下图的例子，T1可以看成员工信息，T2可以看成员工工资。</p>
-<p><img src="image-20221019235622917.png"></p>
-<h3 id="3-2-数据可靠及高可用"><a href="#3-2-数据可靠及高可用" class="headerlink" title="3.2 数据可靠及高可用"></a>3.2 数据可靠及高可用</h3><p><img src="image-20221020223046886.png" alt="等级越高，灾难恢复能力越强"></p>
-<p><img src="image-20221020223323087.png" alt="故障恢复"></p>
-<p><img src="image-20221020223952689.png"></p>
-<p>服务器集群最好留一点裕量的资源空间，最好不要出现 一个租户的Unit单元等于OB Service的情况。</p>
-<p><img src="image-20221020224623395.png"></p>
-<p><img src="image-20221020225030337.png" alt="三地五中心"></p>
-<p><img src="image-20221020225731103.png"></p>
-<p><img src="image-20221020225911013.png"></p>
-<p>三地五中心和上面的方式的目的就是能做到城市级的容灾，一个城市的机房出现故障，还能保证Paxos的多数派的强一致性。</p>
-<p>  <img src="image-20221020231600310.png"></p>
-<p><img src="image-20221020231621694.png"></p>
-<p><img src="image-20221020231713350.png"></p>
-<p><img src="image-20221020231748967.png"></p>
-<h3 id="3-3-分布式事务、MVCC、事务隔离级别"><a href="#3-3-分布式事务、MVCC、事务隔离级别" class="headerlink" title="3.3 分布式事务、MVCC、事务隔离级别"></a>3.3 分布式事务、MVCC、事务隔离级别</h3><p><img src="image-20221020232029034.png"></p>
-<p><img src="image-20221020232733080.png"></p>
-<p>OB Proxy不是协调者，他是无状态的，OB Service是协调者。</p>
-<p>主副本才会参与到事务中，从副本只会做备份。所以协调者和参与者都是主副本。主副本在进行事务的过程中会不断同步日志到从副本，所以从副本也能感知事务的存在。两阶段提交是为了解决原子性的问题，paxos组是为了解决主从复制，主从选举的。 </p>
-<p><img src="image-20221020234352372.png"></p>
-<p><img src="image-20221020234422243.png"></p>
-<h2 id="4-OB-Service的SQL引擎和存储引擎"><a href="#4-OB-Service的SQL引擎和存储引擎" class="headerlink" title="4.OB Service的SQL引擎和存储引擎"></a>4.OB Service的SQL引擎和存储引擎</h2><h3 id="4-1-SQL引擎"><a href="#4-1-SQL引擎" class="headerlink" title="4.1 SQL引擎"></a>4.1 SQL引擎</h3><p><img src="image-20221023223336853.png"></p>
-<p>MySQL有很好的兼容性，因为代码开源。</p>
-<p><img src="image-20221023224408036.png"></p>
-<h3 id="4-2存储引擎和备份恢复"><a href="#4-2存储引擎和备份恢复" class="headerlink" title="4.2存储引擎和备份恢复"></a>4.2存储引擎和备份恢复</h3><p><img src="image-20221023224656879.png"></p>
-<p>堆表的结构，磁盘会划分很多段，段又会划分很多页。</p>
-<p><img src="image-20221023225013866.png"></p>
-<p><img src="image-20221023230459409.png"></p>
-<p><img src="image-20221023230916645.png"></p>
-<p>转储是分区级别的，合并是全局级别的。</p>
-<p><img src="image-20221023231103396.png"></p>
-<p>轮转合并指的是，合并的时候把Zone中的主副本先迁移到其他的Zone中去，比如合并Zone1的时候保证Zone1里面没有主副本。</p>
-<p><img src="image-20221023232654106.png"></p>
-<p><img src="image-20221023233016875.png"></p>
-<p><img src="image-20221023233541562.png"></p>
-<p><img src="image-20221023233714736.png"></p>
-<p><img src="image-20221023234105046.png"></p>
-<p><img src="image-20221023234210499.png"></p>
-<p><img src="image-20221023234257496.png"></p>
-<h2 id="5-OCP、ODC及OMS工具"><a href="#5-OCP、ODC及OMS工具" class="headerlink" title="5.OCP、ODC及OMS工具"></a>5.OCP、ODC及OMS工具</h2><p><img src="image-20221024220723063.png"></p>
-<p><img src="image-20221024220938863.png"></p>
-<p><img src="image-20221024221451108.png"></p>
-<p><img src="image-20221024223303327.png"></p>
-<p><img src="image-20221024223551049.png" alt="ODC"></p>
-<p><img src="image-20221024223719802.png"></p>
-<p><img src="image-20221024224102562.png"></p>
-<p><img src="image-20221024224246451.png"></p>
-<p><img src="image-20221024224903925.png"></p>
+                <h1 id="redis学习笔记"><a href="#redis学习笔记" class="headerlink" title="redis学习笔记"></a>redis学习笔记</h1><h2 id="1-redis基础介绍"><a href="#1-redis基础介绍" class="headerlink" title="1.redis基础介绍"></a>1.redis基础介绍</h2><p> Redis是一款基于键值对的NoSQL（Not only sql：非关系型数据库）数据库，它的值支持多种数据结构；字符串(String)、哈希(hashes)、列表(lists)、集合（zset）、有序集合(sorted sets)。Redis 能将所有经常访问的数据存放在内存中，提高系统读写能力；同时，Redis 还有持久化机制保证数据的安全性。可以将内存中的数据以快照（将内存中的数据原封原样的存放到硬盘上，但是效率较低，可能会有阻塞，不适合实时的做）或日志（存的是Redis的操作命令，可以实时存储，但是恢复时很慢）的形式保存在硬盘上，以保证数据的安全性，不会因为关闭系统而丢失数据；</p>
+<h2 id="2-redis数据结构"><a href="#2-redis数据结构" class="headerlink" title="2.redis数据结构"></a>2.redis数据结构</h2><p>Key：String</p>
+<p>Value：String、Hash、List、Set、ZSet、BitMap、HyperLogLog</p>
+<p><img src="image-20221114224358711.png"></p>
+<h3 id="2-1-redis-String"><a href="#2-1-redis-String" class="headerlink" title="2.1 redis String"></a>2.1 redis String</h3><p>String的数据结构为简单动态字符串（Simple Dynamic String，缩写SDS）。是可以修改的字符串，内部结构上类似于Java的ArrayList，采用分配冗余空间的方式来减少内存的频繁分配。</p>
+<p><img src="image-20221114224540158.png"></p>
+<p>如图所示，内部为当前字符串实际分配的空间capacity一般要高于实际字符串长度len。当字符串长度小于1M时，扩容都是加倍现有的空间，如果超过1M，扩容时一次会多扩容1M的空间。要注意的是字符串最大长度为512M。</p>
+<h3 id="2-2redis-列表"><a href="#2-2redis-列表" class="headerlink" title="2.2redis 列表"></a>2.2redis 列表</h3><p>单键多值，redis列表是简单的字符串列表，按照插入顺序排序。可以添加一个元素到列表的头部（左边）或者尾部（右边）。</p>
+<p>它的底层实际上是使用双向链表实现的，对两端的操作性能很高，通过索引下标操作中间节点性能会较差。</p>
+<p><img src="image-20221114224934457.png"></p>
+<h3 id="2-3-redis集合"><a href="#2-3-redis集合" class="headerlink" title="2.3 redis集合"></a>2.3 redis集合</h3><p>redis set对外提供的功与list类似，是一个列表的功能，特殊之处在于set是可以自动排重的，当你需要存储一个列表数据，又不希望出现重复数据时，set是一个很好的选择。</p>
+<p>redis的set是string类型的<strong>无序集合</strong>，他的底层实际是一个value为null的hash表，添加，删除，查找复杂度都是O(1)（哈希表的时间复杂度是O（1））。</p>
+<p>一个算法，如果时间复杂度是O(1)，那么随着数据的增加，查找数据的时间不变，也就是不管数据多少，查找时间都是一样的。</p>
+<h3 id="2-4redis哈希（hash）"><a href="#2-4redis哈希（hash）" class="headerlink" title="2.4redis哈希（hash）"></a>2.4redis哈希（hash）</h3><p>Redis hash是一个键值对集合。</p>
+<p>Redis hash是一个string类型的field和value的映射表，hash特别适合用于存储对象。</p>
+<p>类似于java里面的Map&lt;String,Object&gt;</p>
+<h3 id="2-5-redis有序集合zset（sorted-set）"><a href="#2-5-redis有序集合zset（sorted-set）" class="headerlink" title="2.5 redis有序集合zset（sorted set）"></a>2.5 redis有序集合zset（sorted set）</h3><p>redis有序集合zset与普通集合set非常相似，是一个没有重复元素的字符串集合。</p>
+<p>不同之处是有序集合的每个成员都关联了一个评分（score），这个评分（score）被用来按照从最低分到最高分的方式排序集合中的成员。</p>
+<p>集合的成员是唯一的，但是评分是可以重复的。</p>
+<p>因为元素是有序的，所以你可以很快的根据评分（score）或者次序（position）来获取一个范围的元素。</p>
+<p>访问有序集合中的中间元素也是非常快的，因为你能够使用有序集合作为一个没有重复成员你的智能列表。</p>
+<p><strong>底层实现不是红黑树，是跳跃表。</strong></p>
+<p>作者本人的回答：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">They are not very memory intensive. It’s up to you basically. Changing parameters about the probability of a node to have a given number of levels will make then less memory intensive than btrees.</span><br><span class="line"></span><br><span class="line">A sorted set is often target of many ZRANGE or ZREVRANGE operations, that is, traversing the skip list as a linked list. With this operation the cache locality of skip lists is at least as good as with other kind of balanced trees.</span><br><span class="line"></span><br><span class="line">They are simpler to implement, debug, and so forth. For instance thanks to the skip list simplicity I received a patch (already in Redis master) with augmented skip lists implementing ZRANK in O(log(N)). It required little changes to the code.</span><br><span class="line"></span><br><span class="line">About the Append Only durability &amp; speed, I don’t think it is a good idea to optimize Redis at cost of more code and more complexity for a use case that IMHO should be rare for the Redis target (fsync() at every command). Almost no one is using this feature even with ACID SQL databases, as the performance hint is big anyway.</span><br><span class="line"></span><br><span class="line">About threads: our experience shows that Redis is mostly I/O bound. I’m using threads to serve things from Virtual Memory. The long term solution to exploit all the cores, assuming your link is so fast that you can saturate a single core, is running multiple instances of Redis (no locks, almost fully scalable linearly with number of cores), and using the “Redis Cluster” solution that I plan to develop in the future.</span><br></pre></td></tr></table></figure>
+
+<p>redis选择跳跃表而非红黑树作为有序集合实现方式的原因并非是基于并发上的考虑，因为redis是单线程的，选用跳跃表的原因仅仅是因为跳跃表的实现相较于红黑树更加简洁。</p>
+<h3 id="2-7-Bitmaps位操作字符串"><a href="#2-7-Bitmaps位操作字符串" class="headerlink" title="2.7 Bitmaps位操作字符串"></a>2.7 Bitmaps位操作字符串</h3><p>现代计算机使用二进制（位）作为信息的基本单位，1个字节等于8位，例如“abc”字符串是有3个字节组成，但实际在计算机内存储时将其使用二进制表示，“abc”分别对应的ASCII码是：97、98、99，对应的二进制分别是01100001、01100010、01100011，如下图</p>
+<p><img src="image-20221114230256378.png"></p>
+<p>合理地使用位操作能够有效地提高内存使用率和开发效率。</p>
+<p>Redis提供了Bitmaps这个“数据类型”可以实现对位的操作：</p>
+<ul>
+<li><p>Bitmaps本身不是一种数据类型， 实际上它就是字符串（key-value） ， 但是它可以对字符串的位进行操作，字符串中每个字符对应1个字节，也就是8位，一个字符可以存储8个bit位信息。</p>
+</li>
+<li><p>Bitmaps单独提供了一套命令， 所以在Redis中使用Bitmaps和使用字符串的方法不太相同。 可以把Bitmaps想象成一个以位为单位的数组， 数组的每个单元只能存储0和1， 数组的下标在Bitmaps中叫做偏移量。</p>
+</li>
+</ul>
+<h3 id="2-8-HyperLoglog"><a href="#2-8-HyperLoglog" class="headerlink" title="2.8 HyperLoglog"></a>2.8 HyperLoglog</h3><p>在工作当中，我们经常会遇到与统计相关的功能需求，比如统计网站 PV（PageView 页面访问量），可以使用 Redis 的 incr（+1）、incrby （+指定值）轻松实现。但像 UV（UniqueVisitor 独立访客）、独立 IP 数、搜索记录数等需要去重和计数的问题如何解决？这种求集合中不重复元素个数的问题称为基数问题。</p>
+<p>解决基数问题有很多种方案：</p>
+<ul>
+<li><p>数据存储在 MySQL 表中，使用 distinct count 计算不重复个数。</p>
+</li>
+<li><p>使用 Redis 提供的 hash、set、bitmaps 等数据结构来处理。</p>
+</li>
+</ul>
+<p>以上的方案结果精确，但随着数据不断增加，导致占用空间越来越大，对于非常大的数据集是不切实际的。能否能够降低一定的精度来平衡存储空间？Redis 推出了 HyperLogLog。</p>
+<p>Redis HyperLogLog 是用来做基数统计的算法，HyperLogLog 的优点是：在输入元素的数量或者体积非常非常大时，计算基数所需的空间总是固定的、并且是很小的。</p>
+<p>在 Redis 里面，每个 HyperLogLog 键只需要花费 12 KB 内存，就可以计算接近 2^64 个不同元素的基数。这和计算基数时，元素越多耗费内存就越多的集合形成鲜明对比。</p>
+<p>但是，因为 HyperLogLog 只会根据输入元素来计算基数，而不会储存输入元素本身，所以HyperLogLog 不能像集合那样，返回输入的各个元素。</p>
+<p>什么是基数？</p>
+<p>比如数据集 {1, 3, 5, 7, 5, 7, 8}，那么这个数据集的基数集为 {1, 3, 5 ,7, 8}，基数 (不重复元素) 为 5。 基数估计就是在误差可接受的范围内，快速计算基数。</p>
+<h3 id="2-9-Geographic"><a href="#2-9-Geographic" class="headerlink" title="2.9 Geographic"></a>2.9 Geographic</h3><p>Reids3.2 中增加了对GEO类型的支持，GEO（Geographic），地理信息的缩写。</p>
+<p>该类型，就是元素的 2 维坐标，在地图上就是经纬度，redis基于该类型，提供了经纬度设置、查询、范围查询、距离查询，经纬度Hash等常见操作。</p>
+<h2 id="3-redis持久化"><a href="#3-redis持久化" class="headerlink" title="3.redis持久化"></a>3.redis持久化</h2><p>Redis是一个基于内存的数据库，它的数据是存放在内存中，内存有个问题就是关闭服务或者断电会丢失。</p>
+<p>Redis的数据也支持写到硬盘中，这个过程就叫做持久化。</p>
+<p>Redis提供了2种不同形式的持久化方式。</p>
+<ul>
+<li><p>RDB（Redis DataBase）</p>
+</li>
+<li><p>AOP（Append Of File）</p>
+</li>
+</ul>
+<h3 id="3-1redis持久化之RDB（Redis-DataBase）"><a href="#3-1redis持久化之RDB（Redis-DataBase）" class="headerlink" title="3.1redis持久化之RDB（Redis DataBase）"></a>3.1redis持久化之RDB（Redis DataBase）</h3><p><strong>RDB</strong>：在指定的时间间隔内将内存中的数据集快照写入磁盘，也就是行话讲的Snapshot快照，它恢复时是键快照文件直接读到内存里。</p>
+<h4 id="3-1-1备份是如何执行的"><a href="#3-1-1备份是如何执行的" class="headerlink" title="3.1.1备份是如何执行的"></a>3.1.1<strong>备份是如何执行的</strong></h4><p>Redis会单独创建（fork）一个子进程进行持久化，会先将数据写入到一个临时文件中，待持久化过程都结束后，再用这个临时文件替换上次持久化好的文件。整个过程中，主进程是不进行任何IO操作的，这就是确保了极高的性能，如果需要进行大规模的恢复，且对数据恢复的完整性不是非常敏感，那RDB方式要比AOF方式更加的高效。RDB的缺点是最后一次持久化后的数据可能丢失。</p>
+<h4 id="3-1-2-Fork"><a href="#3-1-2-Fork" class="headerlink" title="3.1.2 Fork"></a>3.1.2 Fork</h4><p>Fork的作用是复制一个与当前进程一样的进程，新进程的所有数据（变量、环境变量、程序计数器等）数值都和原进程一致，它是一个全新的进程，并作为原进程的子进程。在Linux程序中，fork()会产生一个和父进程完全相同的子进程，但子进程在此后多会exec系统调用，处于效率考虑，linux中引入了“写时复制技术”一般情况父进程和子进程会共用一段物理内存，只有进程空间的各段的内容要发生变化时，才会将父进程的内容复制一份给子进程。</p>
+<p><img src="image-20221114232504293.png"></p>
 
                 
             </div>
@@ -419,7 +385,7 @@
                     </i>
                 </span>
                 <span class="reprint-info">
-                    <a href="http://example.com/2022/10/11/OceanBase%E5%9F%BA%E7%A1%80/">http://example.com/2022/10/11/OceanBase%E5%9F%BA%E7%A1%80/</a>
+                    <a href="http://example.com/2022/11/14/redis%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/">http://example.com/2022/11/14/redis%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/</a>
                 </span>
             </div>
             <div class="reprint__notice">
@@ -533,9 +499,10 @@
 <article id="prenext-posts" class="prev-next articles">
     <div class="row article-row">
         
-        <div class="article col s12 m6" data-aos="fade-up">
+        <div class="article col s12 m6" data-aos="fade-up" data-aos="fade-up">
             <div class="article-badge left-badge text-color">
-                <i class="fas fa-chevron-left"></i>&nbsp;上一篇</div>
+                <i class="far fa-dot-circle"></i>&nbsp;本篇
+            </div>
             <div class="card">
                 <a href="/2022/11/14/redis%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/">
                     <div class="card-image">
@@ -553,9 +520,9 @@
                         
                     </div>
                     <div class="publish-info">
-                        <span class="publish-date">
-                            <i class="far fa-clock fa-fw icon-date"></i>2022-11-14
-                        </span>
+                            <span class="publish-date">
+                                <i class="far fa-clock fa-fw icon-date"></i>2022-11-14
+                            </span>
                         <span class="publish-author">
                             
                             <i class="fas fa-user fa-fw"></i>
@@ -564,6 +531,7 @@
                         </span>
                     </div>
                 </div>
+
                 
             </div>
         </div>
@@ -574,13 +542,13 @@
                 下一篇&nbsp;<i class="fas fa-chevron-right"></i>
             </div>
             <div class="card">
-                <a href="/2022/09/27/hello-world/">
+                <a href="/2022/10/11/OceanBase%E5%9F%BA%E7%A1%80/">
                     <div class="card-image">
                         
                         
-                        <img src="/medias/featureimages/12.jpg" class="responsive-img" alt="Hello World">
+                        <img src="/medias/featureimages/5.jpg" class="responsive-img" alt="OceanBase基础">
                         
-                        <span class="card-title">Hello World</span>
+                        <span class="card-title">OceanBase基础</span>
                     </div>
                 </a>
                 <div class="card-content article-content">
@@ -591,7 +559,7 @@
                     </div>
                     <div class="publish-info">
                             <span class="publish-date">
-                                <i class="far fa-clock fa-fw icon-date"></i>2022-09-27
+                                <i class="far fa-clock fa-fw icon-date"></i>2022-10-11
                             </span>
                         <span class="publish-author">
                             
